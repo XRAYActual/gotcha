@@ -19,6 +19,7 @@ public class MainActivity extends ActionBarActivity {
         actionBar.setLogo(R.mipmap.ic_launcher);
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
+        //add comment here
     }
 
 
