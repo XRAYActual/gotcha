@@ -1,75 +1,142 @@
 package com.example.mysqltest;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-public class JSONParser {
+public class Register extends Activity implements OnClickListener{
 
-    static InputStream is = null;
-    static JSONObject jObj = null;
-    static String json = "";
+    private EditText user, pass;
+    private Button  mRegister;
 
-    // constructor
-    public JSONParser() {
+    // Progress Dialog
+    private ProgressDialog pDialog;
+
+    // JSON parser class
+    JSONParser jsonParser = new JSONParser();
+
+    //php login script
+
+    //localhost :
+    //testing on your device
+    //put your local ip instead,  on windows, run CMD > ipconfig
+    //or in mac's terminal type ifconfig and look for the ip under en0 or en1
+    // private static final String LOGIN_URL = "http://xxx.xxx.x.x:1234/webservice/register.php";
+
+    //testing on Emulator:
+    private static final String LOGIN_URL = "http://10.0.2.2:1234/webservice/register.php";
+
+    //testing from a real server:
+    //private static final String LOGIN_URL = "http://www.yourdomain.com/webservice/register.php";
+
+    //ids
+    private static final String TAG_SUCCESS = "success";
+    private static final String TAG_MESSAGE = "message";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.register);
+
+        user = (EditText)findViewById(R.id.username);
+        pass = (EditText)findViewById(R.id.password);
+
+        mRegister = (Button)findViewById(R.id.register);
+        mRegister.setOnClickListener(this);
 
     }
 
-    public JSONObject getJSONFromUrl(String url) {
+    @Override
+    public void onClick(View v) {
+        // TODO Auto-generated method stub
 
-        // Making HTTP request
-        try {
-            // defaultHttpClient
-            DefaultHttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost(url);
+        new CreateUser().execute();
 
-            HttpResponse httpResponse = httpClient.execute(httpPost);
-            HttpEntity httpEntity = httpResponse.getEntity();
-            is = httpEntity.getContent();
+    }
 
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+    class CreateUser extends AsyncTask<String, String, String> {
+
+        /**
+         * Before starting background thread Show Progress Dialog
+         * */
+        boolean failure = false;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(Register.this);
+            pDialog.setMessage("Creating User...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
         }
 
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    is, "iso-8859-1"), 8);
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
+        @Override
+        protected String doInBackground(String... args) {
+            // TODO Auto-generated method stub
+            // Check for success tag
+            int success;
+            String username = user.getText().toString();
+            String password = pass.getText().toString();
+            try {
+                // Building Parameters
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("username", username));
+                params.add(new BasicNameValuePair("password", password));
+
+                Log.d("request!", "starting");
+
+                //Posting user data to script
+                JSONObject json = jsonParser.makeHttpRequest(
+                        LOGIN_URL, "POST", params);
+
+                // full json response
+                Log.d("Login attempt", json.toString());
+
+                // json success element
+                success = json.getInt(TAG_SUCCESS);
+                if (success == 1) {
+                    Log.d("User Created!", json.toString());
+                    finish();
+                    return json.getString(TAG_MESSAGE);
+                }else{
+                    Log.d("Login Failure!", json.getString(TAG_MESSAGE));
+                    return json.getString(TAG_MESSAGE);
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-            is.close();
-            json = sb.toString();
-        } catch (Exception e) {
-            Log.e("Buffer Error", "Error converting result " + e.toString());
-        }
 
-        // try parse the string to a JSON object
-        try {
-            jObj = new JSONObject(json);
-        } catch (JSONException e) {
-            Log.e("JSON Parser", "Error parsing data " + e.toString());
-        }
+            return null;
 
-        // return JSON String
-        return jObj;
+        }
+        /**
+         * After completing background task Dismiss the progress dialog
+         * **/
+        protected void onPostExecute(String file_url) {
+            // dismiss the dialog once product deleted
+            pDialog.dismiss();
+            if (file_url != null){
+                Toast.makeText(Register.this, file_url, Toast.LENGTH_LONG).show();
+            }
+
+        }
 
     }
+
 }
