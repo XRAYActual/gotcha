@@ -1,4 +1,4 @@
-package com.example.mysqltest;
+package com.example.chuanzhu.myapplication;
 
 import java.io.BufferedReader;
 import java.io.IOException;
