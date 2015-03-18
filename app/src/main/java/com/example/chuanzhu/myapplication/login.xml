@@ -1,6 +1,7 @@
+<root>
 <?php
-    mysql_connect("mysql8.000webhost.com","a5224389_elift","trustingeeks.com");
-    $db= mysql_select_db("a5224389_elift");
+    mysql_connect("http://mikekorostelev.com/","bits_user","BitsStud3nt");
+    $db= mysql_select_db("bits");
     $password=$_POST["password"];
     $username=$_POST["username"];
     if (!empty($_POST)) {
@@ -28,3 +29,4 @@
         die(json_encode($response));
     } mysql_close();
  ?>
+</root>
