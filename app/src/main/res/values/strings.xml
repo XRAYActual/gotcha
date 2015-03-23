@@ -3,6 +3,9 @@
 
     <string name="hello_world">Hello world!this is gotcha</string>
     <string name="action_settings">Settings</string>
+    <string name="action_profile">Profile</string>
+    <string name="title_activity_finish">Finish</string>
+    <string name="action_setting1">Setting</string>
     <string name="title_activity_signup">signup</string>
     <string name="title_activity_login">login</string>
     <string name="prompt_email">Email</string>
@@ -19,4 +22,9 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="mission">Gotcha works to prevent crime and protect citizens in Philly</string>
+    <string name="title_activity_setting1">setting1</string>
+    <string name="title_activity_profile">profile</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="button_filter">Filter Crime</string>
+    <string name="button_report">Report Crime</string>
 </resources>

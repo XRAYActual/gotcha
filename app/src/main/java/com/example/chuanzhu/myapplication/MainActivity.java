@@ -36,13 +36,27 @@ public class MainActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
+        Intent intent=null;
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        //if (id == R.id.action_settings) {
+        //    return true;
+        //}
+        switch (id){
+            case R.id.action_settings:
+                    intent=new Intent(this,setting1.class);
+                    startActivity(intent);
+                    break;
+            case R.id.action_profile:
+                    intent=new Intent(this,profile.class);
+                    startActivity(intent);
+                    break;
+            default:
+                break;
+            }
+
 
         return super.onOptionsItemSelected(item);
+        //return false;
     }
     public void Signfuction(View v){
         Intent intent= new Intent(this, signup.class);
@@ -54,4 +68,8 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
 
     }
+
+
+
+
 }
