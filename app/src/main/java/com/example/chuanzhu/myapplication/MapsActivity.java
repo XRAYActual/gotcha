@@ -18,7 +18,7 @@ public class MapsActivity extends FragmentActivity {
     private static final double TEMPLE_LAT=39.982094,
                                 TEMPLE_LONG=-75.154679;
     private static final float DEFAULTZOOM=15;
-
+//
 
 
     @Override
