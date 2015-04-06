@@ -2,6 +2,9 @@ package com.example.chuanzhu.myapplication;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.ActionBar.TabListener;
 import android.view.Menu;
 import android.widget.Toast;
 
@@ -25,6 +28,10 @@ public class MapsActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //ActionBar actionBar = getSupportActionBar();
+        //actionBar.setLogo(R.mipmap.ic_launcher1);
+        //actionBar.setDisplayUseLogoEnabled(true);
+        //actionBar.setDisplayShowHomeEnabled(true);
 
         setContentView(R.layout.activity_maps);
         if(initMap()){
@@ -115,6 +122,7 @@ public class MapsActivity extends FragmentActivity {
         mMap.moveCamera(update);
 
     }
+
 
 
 }

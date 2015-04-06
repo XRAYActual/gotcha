@@ -11,6 +11,12 @@ import android.view.View;
 
 public class login extends ActionBarActivity {
 
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,10 +42,11 @@ public class login extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
+        Intent intent=null;
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            intent=new Intent(this,setting1.class);
+            startActivity(intent);
         }
         if(id== android.R.id.home){
             finish();
@@ -48,7 +55,7 @@ public class login extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
     public void mapfunction(View v){
-        Intent intent= new Intent(this, MapsActivity.class);
+        Intent intent= new Intent(this, MapBar.class);
         startActivity(intent);
 
     }

@@ -27,4 +27,18 @@
     <string name="title_activity_maps">Map</string>
     <string name="button_filter">Filter Crime</string>
     <string name="button_report">Report Crime</string>
+    <string name="title_activity_map_bar">map_bar</string>
+    <string name="title_activity_report_crime">ReportCrime</string>
+    <string name="title_activity_filtercrime">Filtercrime</string>
+    <string-array name="crimetype">
+        <item> Robbery</item>
+        <item>Theft</item>
+        <item>Burglary</item>
+
+        </string-array>
+    <string-array name="reportertype">
+        <item> Victim</item>
+        <item>Witness</item>
+
+    </string-array>
 </resources>
