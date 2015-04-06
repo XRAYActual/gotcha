@@ -4,15 +4,25 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.io.InputStream;
 
 
 public class login extends ActionBarActivity {
 
     EditText username;
+    EditText password;
+    Button blogin;
+    String URL_connect="http://mikekorostelev.com/~bits/Xu/login/return_row.php";
+    private static InputStream is = null;
+    private static String json = "";
 
 
 
@@ -27,6 +37,35 @@ public class login extends ActionBarActivity {
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        username=(EditText) findViewById(R.id.email_login);
+        password=(EditText) findViewById(R.id.password_login);
+        blogin=(Button)findViewById(R.id.email_sign_in_button);
+        blogin.setOnClickListener(new View.OnClickListener(){
+
+            public void onClick(View view){
+
+                //Extreamos datos de los EditText
+                String username_str=username.getText().toString();
+                String password_str=password.getText().toString();
+                Log.d("input",username_str);
+                Log.d("password",password_str);
+                //verificamos si estan en blanco
+                //if( checklogindata( usuario , passw )==true){
+
+                    //si pasamos esa validacion ejecutamos el asynctask pasando el usuario y clave como parametros
+
+                  //  new asynclogin().execute(usuario,passw);
+
+
+                //}else{
+                    //si detecto un error en la primera validacion vibrar y mostrar un Toast con un mensaje de error.
+                    //err_login();
+                //}
+
+            }
+        });
+
+
     }
 
 
@@ -55,11 +94,15 @@ public class login extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public void mapfunction(View v){
-        Intent intent= new Intent(this, MapBar.class);
-        startActivity(intent);
+    //public void mapfunction(View v){
 
-    }
+
+
+
+        //Intent intent= new Intent(this, MapBar.class);
+       // startActivity(intent);
+
+    //}
 
 
 
