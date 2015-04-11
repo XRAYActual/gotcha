@@ -21,7 +21,6 @@ public class MainActivity extends ActionBarActivity {
         actionBar.setDisplayShowHomeEnabled(true);
         //add comment here
     }
-//
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -41,6 +40,7 @@ public class MainActivity extends ActionBarActivity {
         //if (id == R.id.action_settings) {
         //    return true;
         //}
+        //
         switch (id){
             case R.id.action_settings:
                     intent=new Intent(this,setting1.class);
