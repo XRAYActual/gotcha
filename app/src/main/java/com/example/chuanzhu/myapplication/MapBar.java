@@ -35,7 +35,7 @@ public class MapBar extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_bar);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setLogo(R.mipmap.ic_launcher1);
+        actionBar.setLogo(R.mipmap.ic_launcher2);
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         if (savedInstanceState == null) {
@@ -94,16 +94,17 @@ public class MapBar extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_map_bar, container, false);
-            /*if(initMap()){
+            //initMap();
+            //if(initMap()){
                 //Toast.makeText(this, "ready to map!", Toast.LENGTH_SHORT).show();
-                gotoLocation(TEMPLE_LAT,TEMPLE_LONG,DEFAULTZOOM);
-            }
-            else{
+            //    gotoLocation(TEMPLE_LAT,TEMPLE_LONG,DEFAULTZOOM);
+            //}
+            //else{
                 //Toast.makeText(this,"map is not affable!",Toast.LENGTH_SHORT).show();
-            }*/
+            //}
             return rootView;
         }
-        /*
+
         private boolean initMap(){
             if(mMap==null) {
                 SupportMapFragment mapFrag=
@@ -126,7 +127,7 @@ public class MapBar extends ActionBarActivity {
             CameraUpdate update= CameraUpdateFactory.newLatLngZoom(ll,zoom);
             mMap.moveCamera(update);
 
-        }*/
+        }
 
     }
     public void reportcrime(View v){
@@ -139,11 +140,6 @@ public class MapBar extends ActionBarActivity {
                 setTitle("Reprot Crime").
                 setIcon(R.mipmap.ic_launcher1).
                 setView(myLoginView).
-
-
-
-
-
                 setPositiveButton("Report", new DialogInterface.OnClickListener() {
 
                     @Override
@@ -209,10 +205,6 @@ public class MapBar extends ActionBarActivity {
                 setTitle("Filter Crime").
                 setIcon(R.mipmap.ic_launcher1).
                 setView(myLoginView).
-
-
-
-
 
                 setPositiveButton("Filter", new DialogInterface.OnClickListener() {
 

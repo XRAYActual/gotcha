@@ -16,7 +16,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.newlayout);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setLogo(R.mipmap.ic_launcher1);
+        actionBar.setLogo(R.mipmap.ic_launcher2);
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         //add comment here
@@ -68,6 +68,12 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
 
     }
+    public void Guest(View v){
+        Intent intent= new Intent(this, MapBar.class);
+        startActivity(intent);
+
+    }
+
 
 
 

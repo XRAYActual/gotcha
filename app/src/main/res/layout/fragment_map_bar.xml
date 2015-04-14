@@ -2,9 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="0dp"
     android:paddingRight="0dp"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp"
+    android:background="#FFA500"
     tools:context="com.example.chuanzhu.myapplication.MapBar$PlaceholderFragment">
+
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
@@ -18,6 +20,7 @@
         />
 
     <Button
+
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_report"
@@ -25,15 +28,21 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="53dp"
-        android:onClick="reportcrime"/>
+        android:onClick="reportcrime"
+        android:layout_marginTop="0dp"
+
+        />
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_filter"
         android:id="@+id/button8"
+        android:onClick="filtercrime"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="filtercrime"/>
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="0dp"
+        />
 
 </RelativeLayout>

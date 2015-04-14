@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    >
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Signup"
         android:id="@+id/button"
-        android:layout_marginLeft="34dp"
-        android:layout_marginStart="34dp"
 
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/button2"
         android:onClick="Signfuction"
+        android:layout_below="@+id/textView3"
+        android:layout_marginTop="34dp"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignStart="@+id/textView3"
+        android:layout_alignRight="@+id/textView3"
+        android:layout_alignEnd="@+id/textView3"
+        android:background="#13aeef"
+        android:textColor="#ffff"
+        android:textSize="30dp"
+        android:textStyle="normal"
         />
 
     <Button
@@ -23,12 +30,18 @@
         android:layout_height="wrap_content"
         android:text="Login"
         android:id="@+id/button2"
-        android:layout_marginRight="36dp"
-        android:layout_marginEnd="36dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:onClick="Loginfuction"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/button"
+        android:layout_alignLeft="@+id/button"
+        android:layout_alignStart="@+id/button"
+        android:layout_alignRight="@+id/button"
+        android:layout_alignEnd="@+id/button"
+        android:background="#13aeef"
+
+         android:textColor="#ffff"
+        android:textSize="30dp"
+        android:textStyle="normal"
         />
 
     <TextView
@@ -37,16 +50,17 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Welcome to gotcha"
         android:id="@+id/textView2"
-        android:layout_marginTop="214dp"
+        android:layout_marginTop="210dp"
         android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/button"
-        android:layout_alignStart="@+id/button" />
+        android:layout_centerHorizontal="true"
+        android:textSize="30dp"
+        />
 
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/log"
-        android:src="@mipmap/log"
+        android:src="@mipmap/gotcha_logo_nb"
         android:layout_alignBottom="@+id/textView2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -58,15 +72,34 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/mission"
         android:id="@+id/textView3"
         android:layout_below="@+id/textView2"
         android:layout_alignLeft="@+id/textView2"
         android:layout_alignStart="@+id/textView2"
-        android:layout_marginTop="60dp"
-        android:layout_toLeftOf="@+id/button2"
-        android:layout_toStartOf="@+id/button2" />
+        android:layout_marginTop="30dp"
+
+        android:layout_alignRight="@+id/textView2"
+        android:layout_alignEnd="@+id/textView2" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guest"
+        android:id="@+id/button7"
+        android:onClick="Guest"
+        android:background="#13aeef"
+        android:textColor="#ffff"
+        android:textSize="30dp"
+
+        android:textStyle="normal"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/button2"
+        android:layout_alignLeft="@+id/button2"
+        android:layout_alignStart="@+id/button2"
+        android:layout_alignRight="@+id/button2"
+        android:layout_alignEnd="@+id/button2" />
 
 
 </RelativeLayout>
