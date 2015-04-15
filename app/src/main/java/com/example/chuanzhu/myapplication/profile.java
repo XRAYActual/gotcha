@@ -18,6 +18,7 @@ public class profile extends ActionBarActivity {
         actionBar.setLogo(R.mipmap.ic_launcher2);
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

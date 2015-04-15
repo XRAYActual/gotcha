@@ -4,7 +4,7 @@
     android:paddingRight="0dp"
     android:paddingTop="0dp"
     android:paddingBottom="0dp"
-    android:background="#FFA500"
+    android:background="#000000"
     tools:context="com.example.chuanzhu.myapplication.MapBar$PlaceholderFragment">
 
 
@@ -25,11 +25,15 @@
         android:layout_height="wrap_content"
         android:text="@string/button_report"
         android:id="@+id/button9"
+        android:textStyle="bold"
+        android:textColor="#f5ad3f"
+        android:textSize="20dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="53dp"
         android:onClick="reportcrime"
         android:layout_marginTop="0dp"
+        android:background="#000000"
 
         />
 
@@ -37,12 +41,16 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_filter"
+        android:textStyle="bold"
+        android:textColor="#f5ad3f"
         android:id="@+id/button8"
+        android:textSize="20dp"
         android:onClick="filtercrime"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="0dp"
+        android:background="#000000"
         />
 
 </RelativeLayout>

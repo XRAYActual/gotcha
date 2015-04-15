@@ -30,11 +30,15 @@
         </activity>
         <activity
             android:name=".signup"
-            android:label="@string/title_activity_signup" >
+            android:label="@string/title_activity_signup"
+            android:windowSoftInputMode="stateHidden"
+            >
         </activity>
         <activity
             android:name=".login"
-            android:label="@string/title_activity_login" >
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="stateHidden"
+            >
         </activity>
         <activity
             android:name=".setting1"
@@ -42,7 +46,9 @@
         </activity>
         <activity
             android:name=".profile"
-            android:label="@string/title_activity_profile" >
+            android:label="@string/title_activity_profile"
+            android:windowSoftInputMode="stateHidden"
+            >
         </activity>
 
         <meta-data
@@ -56,10 +62,7 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" >
         </activity>
-        <activity
-            android:name=".map_bar"
-            android:label="@string/title_activity_map_bar" >
-        </activity>
+
         <activity
             android:name=".MapBar"
             android:label="@string/title_activity_map_bar" >

@@ -50,6 +50,7 @@ public class login extends ActionBarActivity {
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
         username=(EditText) findViewById(R.id.email_login);
         password=(EditText) findViewById(R.id.password_login);
         blogin=(Button)findViewById(R.id.email_sign_in_button);

@@ -38,6 +38,7 @@ public class MapBar extends ActionBarActivity {
         actionBar.setLogo(R.mipmap.ic_launcher2);
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())

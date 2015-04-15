@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin" tools:context=".LoginActivity"
-    android:background="#fbaf3f"
+    android:background="#eeeeee"
     >
 
     <!-- Login progress -->
@@ -58,44 +58,55 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <ImageView
+                <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/log" />
+                    android:layout_marginTop="100dp"
+                    android:textSize="30dp"
+                    android:text="Welcome to Gotcha"
+                    android:gravity="center_horizontal" />
 
                 <EditText
                     android:id="@+id/email_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_email"
-                    android:inputType="textEmailAddress"
+                    android:hint="@string/username"
+                    android:inputType="text|textPersonName"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:layout_marginTop="20dp"
+                    />
 
                 <EditText
                     android:id="@+id/password_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_password"
-                    android:imeActionId="@+id/login"
+
 
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:layout_marginTop="20dp"
+                    />
 
                 <Button
                     android:id="@+id/email_sign_in_button" style="?android:textAppearanceSmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/action_sign_in"
-                    android:textStyle="bold"
 
-                    android:background="#00adef"
-                    android:onClick="mapfunction"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="60dp"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/title_activity_login"
+                    android:textStyle="bold"
+                    android:onClick="Loginfuction"
+                    android:background="@drawable/button_radios"
+                    android:textColor="#ffff"
+                    android:textSize="30dp"
+
                     />
 
             </LinearLayout>
