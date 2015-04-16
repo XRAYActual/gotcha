@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -41,6 +43,33 @@ public class MapsActivity extends FragmentActivity {
                                 TEMPLE_LONG=-75.154679;
     private static final float DEFAULTZOOM=15;
     Marker marker;
+    Marker mylocation_marker;
+    private GoogleMap.OnMyLocationChangeListener myLocationChangelistener= new GoogleMap.OnMyLocationChangeListener() {
+        @Override
+        public void onMyLocationChange(Location location) {
+            LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+            //mylocation_marker = mMap.addMarker(new MarkerOptions().position(loc));
+            setMyLocationMarker(loc.latitude,loc.longitude);
+
+            if(mMap != null){
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
+            }
+        }
+    };
+    private GoogleMap.OnMyLocationButtonClickListener myLocationButton= new GoogleMap.OnMyLocationButtonClickListener() {
+        @Override
+        public boolean onMyLocationButtonClick() {
+            Location location=mMap.getMyLocation();
+            if(location!=null) {
+                LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+                setMyLocationMarker(loc.latitude, loc.longitude);
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "Unable to fetch the current location", Toast.LENGTH_SHORT).show();
+            }
+            return false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +84,16 @@ public class MapsActivity extends FragmentActivity {
         //getActionBar().setDisplayHomeAsUpEnabled(true);
         if(initMap()){
             Toast.makeText(this,"ready to map!",Toast.LENGTH_SHORT).show();
+
             gotoLocation(TEMPLE_LAT,TEMPLE_LONG,DEFAULTZOOM);
             mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMapToolbarEnabled(true);
+            //mMap.setOnMyLocationChangeListener(myLocationChangelistener);
+            mMap.setOnMyLocationButtonClickListener(myLocationButton);
+            //Location mylocation = mMap.getMyLocation();
+
+            //Log.e("My location", "Latittude "+mylocation.getLatitude() );
+            //setMyLocationMarker(mylocation.getLatitude(),mylocation.getLongitude());
         }
         else{
             Toast.makeText(this,"map is not affable!",Toast.LENGTH_SHORT).show();
@@ -372,6 +409,21 @@ public class MapsActivity extends FragmentActivity {
         }
 
         marker = mMap.addMarker(options);
+
+    }
+    private void setMyLocationMarker( double lat, double lng) {
+
+        if (mylocation_marker != null) {
+            mylocation_marker.remove();
+        }
+
+        MarkerOptions options = new MarkerOptions()
+               //.title(locality)
+                .position(new LatLng(lat, lng))
+                .draggable(true)
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapmker_organge));
+
+        mylocation_marker = mMap.addMarker(options);
 
     }
 
