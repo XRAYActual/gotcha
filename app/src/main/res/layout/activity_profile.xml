@@ -56,12 +56,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <ImageView
+                <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/log" />
+                    android:src="@mipmap/log"
+                    android:layout_marginTop="70dp"
+                    android:textSize="30dp"
+                    android:text="Profile"
+                    android:gravity="center_horizontal"
+                    />
 
                 <AutoCompleteTextView
                     android:id="@+id/username"
@@ -70,7 +75,8 @@
                     android:hint="@string/username"
                     android:inputType="textPersonName"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:layout_marginTop="10dp"/>
 
                 <AutoCompleteTextView
                     android:id="@+id/email"
@@ -79,7 +85,8 @@
                     android:hint="@string/prompt_email"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:layout_marginTop="10dp"/>
 
 
 
@@ -91,7 +98,8 @@
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:layout_marginTop="10dp"/>
                 <EditText
                     android:id="@+id/password2"
                     android:layout_width="match_parent"
@@ -100,7 +108,8 @@
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:layout_marginTop="10dp"/>
 
                 <AutoCompleteTextView
                     android:id="@+id/phone"
@@ -118,17 +127,24 @@
                     android:hint="@string/address"
                     android:inputType="textPostalAddress"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:layout_marginTop="10dp"/>
 
 
 
                 <Button
                     android:id="@+id/finish_setting" style="?android:textAppearanceSmall"
-                    android:layout_width="match_parent"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="20dp"
                     android:text="@string/title_activity_finish"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/button_radios"
+                    android:textSize="30dp"
+                    android:textColor="#ffffff"
+
+                    />
 
             </LinearLayout>
         </LinearLayout>

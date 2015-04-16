@@ -21,7 +21,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,22 +33,27 @@
             android:name=".signup"
             android:label="@string/title_activity_signup"
             android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"
             >
         </activity>
         <activity
             android:name=".login"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"
             >
         </activity>
         <activity
             android:name=".setting1"
-            android:label="@string/title_activity_setting1" >
+            android:label="@string/title_activity_setting1"
+            android:screenOrientation="portrait"
+            >
         </activity>
         <activity
             android:name=".profile"
             android:label="@string/title_activity_profile"
             android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"
             >
         </activity>
 
@@ -65,7 +71,9 @@
 
         <activity
             android:name=".MapBar"
-            android:label="@string/title_activity_map_bar" >
+            android:label="@string/title_activity_map_bar"
+            android:screenOrientation="portrait"
+            >
         </activity>
         <activity
             android:name=".ReportCrime"
