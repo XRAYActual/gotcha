@@ -166,7 +166,7 @@ public class login extends ActionBarActivity {
 
             if (result.equals("ok")){
                 // new intent
-               Intent i=new Intent(login.this, MapBar.class);
+               Intent i=new Intent(login.this, MapsActivity.class);
                 i.putExtra("user",user);
                 startActivity(i);
 

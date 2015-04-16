@@ -84,7 +84,11 @@ public class MapsActivity extends FragmentActivity {
         //getActionBar().setDisplayHomeAsUpEnabled(true);
         if(initMap()){
             Toast.makeText(this,"ready to map!",Toast.LENGTH_SHORT).show();
-
+            try {
+                setcrime(1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             gotoLocation(TEMPLE_LAT,TEMPLE_LONG,DEFAULTZOOM);
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMapToolbarEnabled(true);
@@ -187,7 +191,44 @@ public class MapsActivity extends FragmentActivity {
                     return v;
                 }
             });
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    String msg=marker.getPosition().latitude+","+marker.getPosition().longitude;
+                    //Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
+                    return false;
+                }
+            });
+            mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+                @Override
+                public void onMarkerDragStart(Marker marker) {
 
+                }
+
+                @Override
+                public void onMarkerDrag(Marker marker) {
+
+                }
+
+                @Override
+                public void onMarkerDragEnd(Marker marker) {
+                        Geocoder gc=new Geocoder(MapsActivity.this);
+                        List<Address>list=null;
+                        LatLng ll=marker.getPosition();
+                        try{
+                            list=gc.getFromLocation(ll.latitude,ll.longitude,1);
+                        }catch (IOException e){
+                            e.printStackTrace();
+                            return;
+                        }
+                        Address add=list.get(0);
+                        marker.setTitle(add.getLocality());
+                        marker.setSnippet(add.getAddressLine(1));
+                        marker.showInfoWindow();
+
+
+                }
+            });
         }
         return (mMap!=null);
     }
@@ -359,10 +400,10 @@ public class MapsActivity extends FragmentActivity {
 
     }
     public void gomain(View view) throws IOException {
-        //Intent intent=new Intent(this,MainActivity.class);
-        //Toast.makeText(this,"Thank for using Gotcha",Toast.LENGTH_LONG).show();
-        //startActivity(intent);
-        String[] adds = new String[5];
+        Intent intent=new Intent(this,MainActivity.class);
+        Toast.makeText(this,"Thank for using Gotcha",Toast.LENGTH_LONG).show();
+        startActivity(intent);
+        /*String[] adds = new String[5];
         adds[0]="1000 diamond street Philadelphia";
         adds[1]="Temple University";
         adds[2]="13th Philadelphia";
@@ -380,8 +421,8 @@ public class MapsActivity extends FragmentActivity {
             double lng = add.getLongitude();
 
             gotoLocation(lat, lng, DEFAULTZOOM);
-            setMarker(locality, add.getCountryName(), lat, lng);
-        }
+            setMarker(locality, add.getAddressLine(1), lat, lng);
+        }*/
 
     }
     public void gosetting(View view){
@@ -426,6 +467,33 @@ public class MapsActivity extends FragmentActivity {
         mylocation_marker = mMap.addMarker(options);
 
     }
+    private void setcrime(int d) throws IOException {
+        //Intent intent=new Intent(this,MainActivity.class);
+        //Toast.makeText(this,"Thank for using Gotcha",Toast.LENGTH_LONG).show();
+        //startActivity(intent);
+        String[] adds = new String[5];
+        adds[0]="1000 diamond street Philadelphia";
+        adds[1]="Temple University";
+        adds[2]="13th Philadelphia";
+        adds[3]="Cecil B Moore ";
+        adds[4]="city hall Phiadelphia";
+        for(int i=0;i<5;i++) {
+            String location = adds[i];
+
+            Geocoder gc = new Geocoder(this);
+            List<Address> list = gc.getFromLocationName(location, 1);
+            Address add = list.get(0);
+            String locality = add.getLocality();
+            //Toast.makeText(this, locality, Toast.LENGTH_LONG).show();
+            double lat = add.getLatitude();
+            double lng = add.getLongitude();
+
+            gotoLocation(lat, lng, DEFAULTZOOM);
+            setMarker(locality, add.getAddressLine(1), lat, lng);
+        }
+
+    }
+
 
 
 }
