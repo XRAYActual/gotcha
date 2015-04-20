@@ -44,11 +44,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity {
-
+    DecimalFormat df=new DecimalFormat("#.###");
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private static final double TEMPLE_LAT=39.982094,
                                 TEMPLE_LONG=-75.154679;
@@ -103,6 +104,7 @@ public class MapsActivity extends FragmentActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }*/
+            new asynclogin().execute();
             gotoLocation(TEMPLE_LAT,TEMPLE_LONG,DEFAULTZOOM);
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMapToolbarEnabled(true);
@@ -196,11 +198,20 @@ public class MapsActivity extends FragmentActivity {
                     TextView tvLat= (TextView) v.findViewById(R.id.tv_lat);
                     TextView tvLng= (TextView) v.findViewById(R.id.tv_lng);
                     TextView tvSnippet= (TextView) v.findViewById(R.id.tv_snippet);
-
+                    List<Address>list=null;
+                    Geocoder gc=new Geocoder(MapsActivity.this);
                     LatLng ll=marker.getPosition();
+                    try{
+                        list=gc.getFromLocation(ll.latitude,ll.longitude,1);
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                   // LatLng ll=marker.getPosition();
+                    Address add=list.get(0);
                     tvLocality.setText(marker.getTitle());
-                    tvLat.setText("Latitude"+ll.latitude);
-                    tvLng.setText("Longtude"+ll.longitude);
+                    tvLat.setText("Location: "+df.format(ll.latitude)+","+df.format(ll.longitude));
+                    tvLng.setText("Address: "+add.getAddressLine(1));
+                    //tvLng.setText("Address: "+marker.getSnippet());
                     tvSnippet.setText(marker.getSnippet());
                     return v;
                 }
@@ -236,8 +247,8 @@ public class MapsActivity extends FragmentActivity {
                             return;
                         }
                         Address add=list.get(0);
-                        marker.setTitle(add.getLocality());
-                        marker.setSnippet(add.getAddressLine(1));
+                        marker.setTitle("My Location");
+                       //marker.setSnippet(add.getAddressLine(1));
                         marker.showInfoWindow();
 
 
@@ -441,6 +452,24 @@ public class MapsActivity extends FragmentActivity {
         marker = mMap.addMarker(options);
 
     }
+    private void setMarker(String locality, String country,LatLng ll, String datatime) {
+
+        /*if (marker != null) {
+            marker.remove();
+        }*/
+
+        MarkerOptions options = new MarkerOptions()
+                .title(locality)
+                .position(ll)
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapmaker_blue));
+        if (country.length() > 0) {
+            options.snippet("Detail: "+country+"\nTime: "+datatime);
+            //options.snippet(datatime);
+        }
+
+        marker = mMap.addMarker(options);
+
+    }
     private void setMyLocationMarker( double lat, double lng) {
 
         if (mylocation_marker != null) {
@@ -448,9 +477,10 @@ public class MapsActivity extends FragmentActivity {
         }
 
         MarkerOptions options = new MarkerOptions()
-               //.title(locality)
+                .title("My Location")
                 .position(new LatLng(lat, lng))
                 .draggable(true)
+
                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapmker_organge));
 
         mylocation_marker = mMap.addMarker(options);
@@ -492,8 +522,10 @@ public class MapsActivity extends FragmentActivity {
     //4.19 change is start from here to 589 line--------------------------------------------------------------------------------------------------------------------------------------------------------
     public void gomain(View view) throws IOException {
         //use logout button as the test button to test the json from all_report.php
+        Intent intent=new Intent(this,MainActivity.class);
+        Toast.makeText(this,"Thank for using Gotcha",Toast.LENGTH_LONG).show();
+        startActivity(intent);
 
-        new asynclogin().execute();
 
 
     }
@@ -543,13 +575,14 @@ public class MapsActivity extends FragmentActivity {
                         double lag=single_report.getDouble("lat");
                         double logitude=single_report.getDouble("lon");
                         String type= single_report.getString("type");
-                        Log.d("onPostdetail_location_lat", String.valueOf(lag));
-                        Log.d("onPostdetail_location_lon", String.valueOf(logitude));
+                        String time=single_report.getString("datetime");
+                        //Log.d("onPostdetail_location_lat", String.valueOf(lag));
+                        //Log.d("onPostdetail_location_lon", String.valueOf(logitude));
                         Log.d("onPostdetail_report",detail);
                         Log.d("onPostdetail_type",type);
-
-                        setMarker(type, detail, lag, logitude);
-
+                        Log.d("onPostdedate_time",time);
+                        //setMarker(type, detail, lag, logitude);
+                        setMarker(type,detail,new LatLng(lag,logitude),time);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
