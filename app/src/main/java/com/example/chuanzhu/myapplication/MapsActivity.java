@@ -388,7 +388,7 @@ public class MapsActivity extends FragmentActivity {
                         Log.d("reporting", "xu"+str_time+String.valueOf(latitude)+String.valueOf(longitude)+str_detail+str_crime_type+String.valueOf(str_report_type));
                         new report().execute("xu",str_time,String.valueOf(latitude),String.valueOf(longitude),str_detail,str_crime_type,String.valueOf(str_report_type));
                         Toast.makeText(getApplicationContext(), "report"+latitude, Toast.LENGTH_LONG).show();
-                        marker.remove();
+
                     }
                 }).
                 setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -528,8 +528,10 @@ public class MapsActivity extends FragmentActivity {
 
     }
     public void goprofile(View view){
-        Intent intent=new Intent(this,profile.class);
-        startActivity(intent);
+        /*Intent intent=new Intent(this,profile.class);
+        startActivity(intent);*/
+        mMap.clear();
+        new asynclogin().execute();
 
     }
     private void setMarker(String locality, String country, double lat, double lng) {
