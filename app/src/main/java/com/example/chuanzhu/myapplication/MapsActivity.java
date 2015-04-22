@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -13,9 +12,6 @@ import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.app.ActionBar.Tab;
-import android.app.ActionBar.TabListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -45,11 +41,14 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity {
     DecimalFormat df=new DecimalFormat("#.###");
+    SimpleDateFormat data_format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private static final double TEMPLE_LAT=39.982094,
                                 TEMPLE_LONG=-75.154679;
@@ -57,6 +56,7 @@ public class MapsActivity extends FragmentActivity {
     Marker marker;
     Marker mylocation_marker;
     String URL_connect="http://mikekorostelev.com/~bits/Xu/login/all_report.php";
+    String URL_reportcrime="http://mikekorostelev.com/~bits/Xu/login/report_crime_1.php";
     private static String json = "";
     private ProgressDialog pDialog;
     private GoogleMap.OnMyLocationChangeListener myLocationChangelistener= new GoogleMap.OnMyLocationChangeListener() {
@@ -275,32 +275,14 @@ public class MapsActivity extends FragmentActivity {
         //Intent intent= new Intent(this, ReportCrime.class);
         //startActivity(intent);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
-        View  myLoginView= layoutInflater.inflate(R.layout.activity_report_crime, null);
-
-        Dialog alertDialog = new AlertDialog.Builder(this).
-                setTitle("Reprot Crime").
-                setIcon(R.mipmap.ic_launcher2).
-                setView(myLoginView).
-                setPositiveButton("Report", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // TODO Auto-generated method stub
-                    }
-                }).
-                setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // TODO Auto-generated method stub
-                    }
-                }).
-                //spinner = (Spinner) findViewById(R.id.spinner);
-
-                        create();
-
+        final View  myLoginView= layoutInflater.inflate(R.layout.activity_report_crime, null);
+        final EditText  Location= (EditText) myLoginView.findViewById(R.id.location_edit);
+        final EditText Detail= (EditText) myLoginView.findViewById(R.id.detail_edit);
+        final EditText Time= (EditText) myLoginView.findViewById(R.id.time_edit);
 
         final Spinner spinner,spinner1;
+        //spinner is for crime type
+        //spinner1 is for the report type
         final ArrayAdapter<CharSequence> adapter,adapter1;
 
         spinner= (Spinner) myLoginView.findViewById(R.id.spinner);
@@ -310,6 +292,7 @@ public class MapsActivity extends FragmentActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // int Crime_type= (int) parent.getItemAtPosition(position);
                 Toast.makeText(getBaseContext(),parent.getItemIdAtPosition(position)+"selected",Toast.LENGTH_LONG).show();
             }
 
@@ -325,7 +308,7 @@ public class MapsActivity extends FragmentActivity {
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getBaseContext(),parent.getItemIdAtPosition(position)+"selected",Toast.LENGTH_LONG).show();
+                //Toast.makeText(getBaseContext(),parent.getItemIdAtPosition(position)+"selected",Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -333,6 +316,94 @@ public class MapsActivity extends FragmentActivity {
 
             }
         });
+
+
+        Dialog alertDialog = new AlertDialog.Builder(this).
+                setTitle("Reprot Crime").
+                setIcon(R.mipmap.ic_launcher2).
+                setView(myLoginView).
+                setPositiveButton("Report", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+
+                        //EditText  Location= (EditText) findViewById(R.id.location_edit);
+                        //EditText Detail= (EditText) findViewById(R.id.detail_edit);
+                        //EditText Time=(EditText) findViewById(R.id.time_edit);
+                        //EditText Time= (EditText) findViewById(R.id.time_edit);
+                        String str_loc = Location.getText().toString();
+                        Log.d("mylocation_str",str_loc);
+                        String str_detail = Detail.getText().toString();
+                        String str_crime_type = spinner.getSelectedItem().toString();
+                        long str_report_type = spinner1.getSelectedItemId();
+                        String str_time = Time.getText().toString();
+                        double longitude;
+                        double latitude;
+                        if(mylocation_marker==null){
+                            Log.d("mylocation","mylocation is not setted");
+
+                        }
+                        // if the location str is empty, the program should check the mylocation marker is setted or not?
+                        if (str_loc.equals("")) {
+                            if (mylocation_marker!=null) {
+                                LatLng ll = mylocation_marker.getPosition();
+                                longitude = ll.longitude;
+                                latitude = ll.latitude;
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(),"fuck it is empty",Toast.LENGTH_LONG).show();
+                                latitude=0;
+                                longitude=0;
+                            }
+                        }
+                        else{// str_loc is not empty, we use geocoder to get lat and lng
+                            latitude=-1;
+                            longitude=-1;
+                            Log.d("mylocationn",str_loc);
+                            Geocoder gc = new Geocoder(MapsActivity.this);
+                            List<Address> list=null;
+                            //LatLng ll = mylocation_marker.getPosition();
+                            try {
+                                //list = gc.getFromLocationName(str_loc, 3,ll.latitude-0.1,ll.longitude-0.1,ll.latitude+0.1,ll.longitude+0.1);
+                                list = gc.getFromLocationName(str_loc, 2);
+                                Log.d("mylocation", String.valueOf(list));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                list=null;
+                            }
+                            if (list != null) {
+                                Address add = list.get(0);
+                                 latitude = add.getLatitude();
+                                 longitude = add.getLongitude();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "No address found", Toast.LENGTH_LONG).show();
+
+                            }
+                        }
+                        if(str_time.equals("")){
+                            Date curtime=   new Date(System.currentTimeMillis());
+                            str_time=data_format.format(curtime);
+                        }
+                        Log.d("reporting", "xu"+str_time+String.valueOf(latitude)+String.valueOf(longitude)+str_detail+str_crime_type+String.valueOf(str_report_type));
+                        new report().execute("xu",str_time,String.valueOf(latitude),String.valueOf(longitude),str_detail,str_crime_type,String.valueOf(str_report_type));
+                        Toast.makeText(getApplicationContext(), "report"+latitude, Toast.LENGTH_LONG).show();
+                        marker.remove();
+                    }
+                }).
+                setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                    }
+                }).
+                //spinner = (Spinner) findViewById(R.id.spinner);
+
+                        create();
+
+
+
         alertDialog.show();
 
     }
@@ -403,24 +474,50 @@ public class MapsActivity extends FragmentActivity {
     }
 
     public void Geogo(View view) throws IOException {
-        EditText editText=(EditText)findViewById(R.id.editText2);
-        String location=editText.getText().toString();
-        Geocoder gc=new Geocoder(this);
-        List<Address>list=gc.getFromLocationName(location,1);
-        Address add=list.get(0);
-        String locality=add.getLocality();
-        Toast.makeText(this,locality,Toast.LENGTH_LONG).show();
-        double lat=add.getLatitude();
-        double lng=add.getLongitude();
+        try {
+            EditText editText = (EditText) findViewById(R.id.editText2);
+            String location = editText.getText().toString();
+            Geocoder gc = new Geocoder(this);
+            Date curdate=   new Date(System.currentTimeMillis());
+            String date_str=data_format.format(curdate);
+            LatLng ll=mylocation_marker.getPosition();
 
-        gotoLocation(lat,lng,DEFAULTZOOM);
-        setMarker(locality, add.getCountryName(), lat, lng);
+            List<Address> list = gc.getFromLocationName(location, 3,ll.latitude-0.1,ll.longitude-0.1,ll.latitude+0.1,ll.longitude+0.1);
+            List<Address> list1 = gc.getFromLocationName(location, 2);
+            Log.d("address", String.valueOf(list));
+            Log.d("address2", String.valueOf(list1));
+            if (list != null) {
+                Address add = list.get(0);
+                Log.d("address_locality", "before get localilty");
+                Log.d("address_address",add.getAddressLine(0));
+                Log.d("address_address",add.getAddressLine(1));
+
+
+                //String locality = add.getLocality();
+                //Log.d("address_locality", locality);
+                //Toast.makeText(this, locality, Toast.LENGTH_LONG).show();
+                double lat = add.getLatitude();
+                double lng = add.getLongitude();
+
+
+                gotoLocation(lat, lng, DEFAULTZOOM);
+                //marker.setSnippet(add.getAddressLine(1));
+
+                setMarker("Search Place", add.getAddressLine(0)+" "+add.getAddressLine(1)+"\nTime"+date_str, lat, lng);
+            } else {
+                Toast.makeText(this, "No address found", Toast.LENGTH_LONG).show();
+
+            }
         /*MarkerOptions options=new MarkerOptions()
                 //.title(street)
                 .position(new LatLng(lat,lng));
                 //.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapmaker_blue));
         mMap.addMarker(options);*/
+        }
+        catch (IOException e){
+            Toast.makeText(this, "No address found", Toast.LENGTH_LONG).show();
 
+        }
 
 
     }
@@ -444,7 +541,7 @@ public class MapsActivity extends FragmentActivity {
         MarkerOptions options = new MarkerOptions()
                 .title(locality)
                 .position(new LatLng(lat, lng))
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapmaker_blue));
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapmker_organge));
         if (country.length() > 0) {
             options.snippet(country);
         }
@@ -656,6 +753,115 @@ public class MapsActivity extends FragmentActivity {
         Toast toast1 = Toast.makeText(getApplicationContext(),"Error:Wrong password or username", Toast.LENGTH_LONG);
         toast1.show();
     }
+    //4.21 add report crime with database
+    class report extends AsyncTask< String, String, String> {
+
+        String user,date,lat,longitude,detail,type,report_type;
+        protected void onPreExecute() {
+            //para el progress dialog
+            pDialog = new ProgressDialog(MapsActivity.this);
+            pDialog.setMessage("Reporting....");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        protected String doInBackground(String... params) {
+
+            user=params[0];
+            date=params[1];
+            lat=params[2];
+            longitude=params[3];
+            detail=params[4];
+            type=params[5];
+            report_type=params[6];
+            Log.d("reporting_excute",user+date+lat+longitude+detail+type+report_type);
+            //enviamos y recibimos y analizamos los datos en segundo plano.
+            if (loginstatus_1(user, date, lat, longitude, detail,type,report_type)==true){
+                return "ok"; //login valido
+            }else{
+                return "err"; //login invalido
+            }
+
+        }
+
+
+        protected void onPostExecute(String result) {
+
+            pDialog.dismiss();
+            Log.e("onPostExecute=", "" + result);
+
+            if (result.equals("ok")){
+                // new intent
+                //Intent i=new Intent(ReportCrime.this, login.class);
+                //i.putExtra("user",user);
+                //startActivity(i);
+                Toast.makeText(getApplicationContext(),"Suceess",Toast.LENGTH_LONG).show();
+            }else{
+                err_login_1();
+            }
+
+        }
+
+    }
+    public void err_login_1(){
+        //Vibrator vibrator =(Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        //vibrator.vibrate(200);
+        Toast toast1 = Toast.makeText(getApplicationContext(),"Please use different username", Toast.LENGTH_LONG);
+        toast1.show();
+    }
+
+    public boolean loginstatus_1(String user,String date,String lat,String longitude,String detail,String type,String report_type ) {
+        int logstatus=-1;
+        JSONObject jdata=null;
+
+        ArrayList<NameValuePair> postparameters2send= new ArrayList<NameValuePair>();
+
+        postparameters2send.add(new BasicNameValuePair("username",user));
+        postparameters2send.add(new BasicNameValuePair("datetime",date));
+        postparameters2send.add(new BasicNameValuePair("lat",lat));
+        postparameters2send.add(new BasicNameValuePair("longitute",longitude));
+        postparameters2send.add(new BasicNameValuePair("detail",detail));
+        postparameters2send.add(new BasicNameValuePair("type",type));
+        postparameters2send.add(new BasicNameValuePair("report_type",report_type));
+
+        jdata= JSONParser.makeHttpRequest(URL_reportcrime, "POST", postparameters2send);
+
+        SystemClock.sleep(950);
+
+        //si lo que obtuvimos no es null
+
+        if (jdata!=null && jdata.length() > 0){
+
+            //JSONObject json_data; //creamos un objeto JSON
+            try {
+                //json_data = jdata.getJSONObject(0); //leemos el primer segmento en nuestro caso el unico
+                logstatus=jdata.getInt("logstatus");//accedemos al valor
+                Log.e("loginstatus","logstatus= "+logstatus);//muestro por log que obtuvimos
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            //validamos el valor obtenido
+            if (logstatus==0){// [{"logstatus":"0"}]
+                Log.e("loginstatus ", "insucess");
+                return false;
+            }
+            else{// [{"logstatus":"1"}]
+                Log.e("loginstatus ", "sucuess");
+                return true;
+            }
+
+        }
+
+        else{	//json obtenido invalido verificar parte WEB.
+            Log.e("JSON  ", "ERROR111");
+            return false;
+        }
+
+    }
+
 
 
 }
