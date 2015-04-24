@@ -3,9 +3,12 @@ package com.example.chuanzhu.myapplication;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.os.Vibrator;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -165,10 +168,16 @@ public class login extends ActionBarActivity {
             Log.e("onPostExecute=",""+result);
 
             if (result.equals("ok")){
+                //Share preference
+                SharedPreferences logpre= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                logpre.edit().putBoolean("Islogin",true).commit();
+                logpre.edit().putString("userName",user).commit();
                 // new intent
                Intent i=new Intent(login.this, MapsActivity.class);
                 i.putExtra("user",user);
                 startActivity(i);
+
+
 
             }else{
                 err_login();

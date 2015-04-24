@@ -78,7 +78,9 @@ public class MainActivity extends ActionBarActivity {
     }
     public void Guest(View v){
         Intent intent= new Intent(this, MapsActivity.class);
+        intent.putExtra("user","guest");
         startActivity(intent);
+        this.finish();
 
     }
 

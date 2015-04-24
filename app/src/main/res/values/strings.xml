@@ -41,4 +41,5 @@
         <item>Witness</item>
 
     </string-array>
+    <string name="title_activity_loading">Loading</string>
 </resources>

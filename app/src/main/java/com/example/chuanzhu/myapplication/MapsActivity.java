@@ -5,11 +5,13 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,6 +59,7 @@ public class MapsActivity extends FragmentActivity {
     Marker mylocation_marker;
     String URL_connect="http://mikekorostelev.com/~bits/Xu/login/all_report.php";
     String URL_reportcrime="http://mikekorostelev.com/~bits/Xu/login/report_crime_1.php";
+    String username;
     private static String json = "";
     private ProgressDialog pDialog;
     private GoogleMap.OnMyLocationChangeListener myLocationChangelistener= new GoogleMap.OnMyLocationChangeListener() {
@@ -96,7 +99,20 @@ public class MapsActivity extends FragmentActivity {
         //actionBar.setDisplayShowHomeEnabled(true);
 
         setContentView(R.layout.activity_maps);
-        //getActionBar().setDisplayHomeAsUpEnabled(true);
+        Intent now_intent=getIntent();
+        username=now_intent.getStringExtra("user");
+        Toast.makeText(this,username,Toast.LENGTH_LONG).show();
+        SharedPreferences logpre= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Boolean islog=logpre.getBoolean("Islogin",false);
+        String  uuuser=logpre.getString("userName","");
+       /* if(islog){
+            Toast.makeText(this,"1",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,uuuser,Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(this,"2",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,uuuser,Toast.LENGTH_LONG).show();
+        }*/
         if(initMap()){
             Toast.makeText(this,"ready to map!",Toast.LENGTH_SHORT).show();
            /* try {
@@ -385,8 +401,8 @@ public class MapsActivity extends FragmentActivity {
                             Date curtime=   new Date(System.currentTimeMillis());
                             str_time=data_format.format(curtime);
                         }
-                        Log.d("reporting", "xu"+str_time+String.valueOf(latitude)+String.valueOf(longitude)+str_detail+str_crime_type+String.valueOf(str_report_type));
-                        new report().execute("xu",str_time,String.valueOf(latitude),String.valueOf(longitude),str_detail,str_crime_type,String.valueOf(str_report_type));
+                        Log.d("reporting", username+str_time+String.valueOf(latitude)+String.valueOf(longitude)+str_detail+str_crime_type+String.valueOf(str_report_type));
+                        new report().execute("guest",str_time,String.valueOf(latitude),String.valueOf(longitude),str_detail,str_crime_type,String.valueOf(str_report_type));
                         Toast.makeText(getApplicationContext(), "report"+latitude, Toast.LENGTH_LONG).show();
 
                     }
@@ -473,7 +489,7 @@ public class MapsActivity extends FragmentActivity {
         alertDialog.show();
     }
 
-    public void Geogo(View view) throws IOException {
+    /*public void Geogo(View view) throws IOException {
         try {
             EditText editText = (EditText) findViewById(R.id.editText2);
             String location = editText.getText().toString();
@@ -508,11 +524,11 @@ public class MapsActivity extends FragmentActivity {
                 Toast.makeText(this, "No address found", Toast.LENGTH_LONG).show();
 
             }
-        /*MarkerOptions options=new MarkerOptions()
+        *//*MarkerOptions options=new MarkerOptions()
                 //.title(street)
                 .position(new LatLng(lat,lng));
                 //.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapmaker_blue));
-        mMap.addMarker(options);*/
+        mMap.addMarker(options);*//*
         }
         catch (IOException e){
             Toast.makeText(this, "No address found", Toast.LENGTH_LONG).show();
@@ -520,7 +536,7 @@ public class MapsActivity extends FragmentActivity {
         }
 
 
-    }
+    }*/
 
     public void gosetting(View view){
         Intent intent=new Intent(this,setting1.class);
@@ -622,9 +638,11 @@ public class MapsActivity extends FragmentActivity {
     public void gomain(View view) throws IOException {
         //use logout button as the test button to test the json from all_report.php
         Intent intent=new Intent(this,MainActivity.class);
+        SharedPreferences logpre= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        logpre.edit().putBoolean("Islogin",false).commit();
         Toast.makeText(this,"Thank for using Gotcha",Toast.LENGTH_LONG).show();
         startActivity(intent);
-
+        this.finish();
 
 
     }
